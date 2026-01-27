@@ -1,0 +1,121 @@
+[
+    {
+        "name": "Spider Man",
+        "category": "Superheroes",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#58050E",
+        "id": 1001,
+        "titleImage": "spiderman",
+        "isFavorite": false
+    },
+    {
+        "name": "Yoda",
+        "category": "Superheroes",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#425D17",
+        "id": 1002,
+        "titleImage": "yoda",
+        "isFavorite": false
+    },
+    {
+        "name": "Thing",
+        "category": "Superheroes",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#5A3207",
+        "id": 1003,
+        "titleImage": "thing",
+        "isFavorite": false
+    },
+    {
+        "name": "Venom",
+        "category": "Supervillains",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#1C1C1C",
+        "id": 1004,
+        "titleImage": "venom",
+        "isFavorite": false
+    },
+    {
+        "name": "Alien",
+        "category": "Supervillains",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#155915",
+        "id": 1005,
+        "titleImage": "alien",
+        "isFavorite": false
+    },
+    {
+        "name": "Krang",
+        "category": "Supervillains",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#610C25",
+        "id": 1006,
+        "titleImage": "krang",
+        "isFavorite": false
+    },
+    {
+        "name": "Joker",
+        "category": "Supervillains",
+        "state":
+        {
+            "INTELLIGENCE": 30,
+            "POWER": 40,
+            "SPEED": 50,
+            "ENDURANCE": 60,
+            "REACTION": 70,
+            "PROTECTION": 80
+        },
+        "colors": "#242357",
+        "id": 1007,
+        "titleImage": "joker",
+        "isFavorite": false
+    }
+]
