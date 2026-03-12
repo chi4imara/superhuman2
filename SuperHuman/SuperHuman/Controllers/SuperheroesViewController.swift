@@ -22,7 +22,7 @@ class SuperheroesViewController: UIViewController  {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
         
-        let starButton = UIButton(type: .system)
+        let starButton = UIButton(type: .custom)
         starButton.setImage(UIImage(systemName: "star"), for: .normal)
         starButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
         starButton.tintColor = .yellow

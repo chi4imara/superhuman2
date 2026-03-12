@@ -12,6 +12,8 @@ class SupervillainsViewController: UIViewController {
         navigationItem.title = nil
         
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 80))
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
 
         let titleLabel = UILabel()
         titleLabel.text = "Supervillains"
@@ -20,7 +22,7 @@ class SupervillainsViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
         
-        let starButton = UIButton(type: .system)
+        let starButton = UIButton(type: .custom)
         starButton.setImage(UIImage(systemName: "star"), for: .normal)
         starButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
         starButton.tintColor = .yellow
@@ -40,15 +42,12 @@ class SupervillainsViewController: UIViewController {
             starButton.heightAnchor.constraint(equalToConstant: 26)
         ])
         
-        if let superview = containerView.superview {
-            NSLayoutConstraint.activate([
-                containerView.widthAnchor.constraint(equalTo: superview.widthAnchor)
-            ])
-        }
-        
         navigationItem.titleView = containerView
         
-        containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        NSLayoutConstraint.activate([
+            containerView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            containerView.heightAnchor.constraint(equalToConstant: 80)
+        ])
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
