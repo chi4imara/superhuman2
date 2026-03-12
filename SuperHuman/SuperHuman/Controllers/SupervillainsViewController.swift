@@ -11,25 +11,54 @@ class SupervillainsViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.title = nil
         
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 80))
+
         let titleLabel = UILabel()
         titleLabel.text = "Supervillains"
         titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         titleLabel.textColor = .white
-        
-        let containerView = UIView()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let starButton = UIButton(type: .system)
+        starButton.setImage(UIImage(systemName: "star"), for: .normal)
+        starButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
+        starButton.tintColor = .yellow
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        starButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
+        
+        containerView.addSubview(starButton)
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 47),
+            
+            starButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            starButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 47),
+            starButton.widthAnchor.constraint(equalToConstant: 26),
+            starButton.heightAnchor.constraint(equalToConstant: 26)
         ])
+        
+        if let superview = containerView.superview {
+            NSLayoutConstraint.activate([
+                containerView.widthAnchor.constraint(equalTo: superview.widthAnchor)
+            ])
+        }
         
         navigationItem.titleView = containerView
         
-        containerView.sizeToFit()
+        containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    @objc private func starButtonTapped(_ sender: UIButton) {
+      
+        sender.isSelected.toggle()
+                
+        if sender.isSelected {
+            print("Звездочка добавлена в избранное")
+        } else {
+            print("Звездочка удалена из избранного")
+        }
     }
 }
