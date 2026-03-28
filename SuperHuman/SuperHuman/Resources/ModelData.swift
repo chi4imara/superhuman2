@@ -2,6 +2,7 @@ import Foundation
 
 class ModelData {
     static var shared = ModelData()
+    
     var human: [HumanModel] = []
     
     init() {
