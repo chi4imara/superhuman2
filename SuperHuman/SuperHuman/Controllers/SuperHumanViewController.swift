@@ -2,6 +2,37 @@ import UIKit
 
 class SuperHumanViewController: UIViewController  {
     
+    private let label: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        titleLabel.textColor = .white
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        return titleLabel
+    }()
+    
+    private let button: UIButton = {
+        let starButton = UIButton(type: .custom)
+        starButton.setImage(UIImage(systemName: "star"), for: .normal)
+        starButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
+        starButton.tintColor = .yellow
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        return starButton
+    }()
+    
+    private func layotConstraint(container: UIView) {
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 47),
+            
+            button.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -12),
+            button.topAnchor.constraint(equalTo: container.topAnchor, constant: 47),
+            button.widthAnchor.constraint(equalToConstant: 26),
+            button.heightAnchor.constraint(equalToConstant: 26)
+        ])
+    }
+    
     func setupNavigationBar(title: String) {
         navigationItem.title = nil
         
@@ -9,32 +40,13 @@ class SuperHumanViewController: UIViewController  {
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        titleLabel.textColor = .white
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(titleLabel)
+        label.text = title
+        containerView.addSubview(label)
         
-        let starButton = UIButton(type: .custom)
-        starButton.setImage(UIImage(systemName: "star"), for: .normal)
-        starButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
-        starButton.tintColor = .yellow
-        starButton.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
+        containerView.addSubview(button)
         
-        starButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
-        
-        containerView.addSubview(starButton)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 47),
-            
-            starButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            starButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 47),
-            starButton.widthAnchor.constraint(equalToConstant: 26),
-            starButton.heightAnchor.constraint(equalToConstant: 26)
-        ])
+        layotConstraint(container: containerView)
         
         navigationItem.titleView = containerView
         
