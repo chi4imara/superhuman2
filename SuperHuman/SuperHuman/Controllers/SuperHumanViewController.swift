@@ -21,7 +21,7 @@ class SuperHumanViewController: UIViewController  {
         return starButton
     }()
     
-    private func layotConstraint(container: UIView) {
+    private func layoutConstraint(container: UIView) {
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
             label.topAnchor.constraint(equalTo: container.topAnchor, constant: 47),
@@ -46,7 +46,7 @@ class SuperHumanViewController: UIViewController  {
         button.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
         containerView.addSubview(button)
         
-        layotConstraint(container: containerView)
+        layoutConstraint(container: containerView)
         
         navigationItem.titleView = containerView
         
