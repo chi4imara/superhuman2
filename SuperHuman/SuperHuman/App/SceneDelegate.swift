@@ -50,7 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.standardAppearance = appearance
         tabBarController.tabBar.scrollEdgeAppearance = appearance
         tabBarController.tabBar.tintColor = .white
-        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.isTranslucent = true
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
