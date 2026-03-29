@@ -127,6 +127,7 @@ final class SuperHumanDetailViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
         
         nameLabel.text = human.name
+        
         avatarImageView.image = UIImage(named: human.titleImage)
         
         rebuildStatsStack(from: human.state)

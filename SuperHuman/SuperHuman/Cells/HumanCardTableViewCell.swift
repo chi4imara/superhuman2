@@ -13,6 +13,7 @@ final class HumanCardTableViewCell: UITableViewCell {
         contentView.backgroundColor = .clear
 
         contentView.addSubview(cardView)
+        
         NSLayoutConstraint.activate([
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
