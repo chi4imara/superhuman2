@@ -1,7 +1,9 @@
 import UIKit
 
 final class SuperHumanCardView: UIView {
-    
+
+    private var humanId: Int?
+
     private let avatarImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -85,10 +87,14 @@ final class SuperHumanCardView: UIView {
     }
     
     func configure(with model: HumanModel) {
+        humanId = model.id
         nameLabel.text = model.name
         avatarImageView.image = UIImage(named: model.titleImage)
         backgroundColor = model.color
-        
+
+        let favorite = ModelData.shared.human(withId: model.id)?.isFavorite ?? model.isFavorite
+        button.isSelected = favorite
+
         rebuildStatsStack(from: model.state)
     }
     
@@ -129,13 +135,8 @@ final class SuperHumanCardView: UIView {
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
-
+        guard let id = humanId else { return }
         sender.isSelected.toggle()
-
-        if sender.isSelected {
-            print("Звездочка добавлена в избранное")
-        } else {
-            print("Звездочка удалена из избранного")
-        }
+        ModelData.shared.setFavorite(id: id, isFavorite: sender.isSelected)
     }
 }

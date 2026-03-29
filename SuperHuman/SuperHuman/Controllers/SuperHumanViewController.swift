@@ -3,6 +3,7 @@ import UIKit
 class SuperHumanViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var models: [HumanModel] = []
+    private var categoryFilter: String = ""
     
     private let tableView: UITableView = {
         let t = UITableView(frame: .zero, style: .plain)
@@ -63,8 +64,38 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
         ])
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleFavoriteDidChange),
+            name: .humanFavoriteDidChange,
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadFilteredModels()
+        tableView.reloadData()
+    }
+
+    private func reloadFilteredModels() {
+        guard !categoryFilter.isEmpty else { return }
+        var list = ModelData.shared.human.filter { $0.category == categoryFilter }
+        if button.isSelected {
+            list = list.filter(\.isFavorite)
+        }
+        models = list
+    }
+
     func setupHumanTable(filterCategory: String) {
-        models = ModelData.shared.human.filter { $0.category == filterCategory }
+        categoryFilter = filterCategory
+        reloadFilteredModels()
 
         if tableView.superview == nil {
             tableView.dataSource = self
@@ -84,6 +115,13 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
         }
 
         tableView.reloadData()
+    }
+
+    @objc private func handleFavoriteDidChange() {
+        reloadFilteredModels()
+        if tableView.superview != nil {
+            tableView.reloadData()
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -111,13 +149,8 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     @objc private func starButtonTapped(_ sender: UIButton) {
-
         sender.isSelected.toggle()
-
-        if sender.isSelected {
-            print("Звездочка добавлена в избранное")
-        } else {
-            print("Звездочка удалена из избранного")
-        }
+        reloadFilteredModels()
+        tableView.reloadData()
     }
 }

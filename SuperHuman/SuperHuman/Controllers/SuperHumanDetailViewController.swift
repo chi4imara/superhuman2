@@ -4,6 +4,8 @@ final class SuperHumanDetailViewController: UIViewController {
 
     private static let actionAccent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
 
+    private var humanId: Int?
+
     private let gradientLayer = CAGradientLayer()
     
     private let avatarImageView: UIImageView = {
@@ -119,18 +121,28 @@ final class SuperHumanDetailViewController: UIViewController {
     }
     
     func configure(with human: HumanModel) {
+        humanId = human.id
+
         gradientLayer.colors = [
             human.color.cgColor,
             UIColor.black.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        
+
         nameLabel.text = human.name
         
         avatarImageView.image = UIImage(named: human.titleImage)
-        
+
         rebuildStatsStack(from: human.state)
+
+        let current = ModelData.shared.human(withId: human.id) ?? human
+        actionButton.isSelected = current.isFavorite
+        if var cfg = actionButton.configuration {
+            cfg.title = current.isFavorite ? "In favorites" : "Add to favorites"
+            actionButton.configuration = cfg
+        }
+        actionButton.setNeedsUpdateConfiguration()
     }
     
     private func rebuildStatsStack(from state: [String: Int]) {
@@ -170,17 +182,13 @@ final class SuperHumanDetailViewController: UIViewController {
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
+        guard let id = humanId else { return }
         sender.isSelected.toggle()
+        ModelData.shared.setFavorite(id: id, isFavorite: sender.isSelected)
 
         guard var cfg = sender.configuration else { return }
         cfg.title = sender.isSelected ? "In favorites" : "Add to favorites"
         sender.configuration = cfg
         sender.setNeedsUpdateConfiguration()
-
-        if sender.isSelected {
-            print("Звездочка добавлена в избранное")
-        } else {
-            print("Звездочка удалена из избранного")
-        }
     }
 }
