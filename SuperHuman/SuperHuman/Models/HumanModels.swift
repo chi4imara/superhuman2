@@ -13,9 +13,9 @@ struct HumanModel: Codable, Hashable, Identifiable {
     var color: UIColor { UIColor.hex(colors) }
     
     enum CodingKeys: String, CodingKey {
-           case name, id, isFavorite, category, state, titleImage
-           case colors = "colors"
-       }
+        case name, id, isFavorite, category, state, titleImage
+        case colors = "colors"
+    }
     
     init(id: Int, name: String, category: String, state: [String: Int], colors: String, titleImage: String, isFavorite: Bool) {
         self.id = id

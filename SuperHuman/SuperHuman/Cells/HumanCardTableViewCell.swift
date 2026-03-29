@@ -1,17 +1,17 @@
 import UIKit
 
 final class HumanCardTableViewCell: UITableViewCell {
-
+    
     static let reuseId = "HumanCardTableViewCell"
-
+    
     private let cardView = SuperHumanCardView()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-
+        
         contentView.addSubview(cardView)
         
         NSLayoutConstraint.activate([
@@ -21,11 +21,11 @@ final class HumanCardTableViewCell: UITableViewCell {
             cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func configure(with model: HumanModel) {
         cardView.configure(with: model)
     }

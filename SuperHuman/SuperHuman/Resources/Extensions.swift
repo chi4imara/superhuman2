@@ -85,3 +85,7 @@ extension UIColor {
         )
     }
 }
+
+extension Notification.Name {
+    static let humanFavoriteDidChange = Notification.Name("SuperHuman.humanFavoriteDidChange")
+}

@@ -1,9 +1,9 @@
 import UIKit
 
 final class SuperHumanCardView: UIView {
-
+    
     private var humanId: Int?
-
+    
     private let avatarImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -91,10 +91,10 @@ final class SuperHumanCardView: UIView {
         nameLabel.text = model.name
         avatarImageView.image = UIImage(named: model.titleImage)
         backgroundColor = model.color
-
+        
         let favorite = ModelData.shared.human(withId: model.id)?.isFavorite ?? model.isFavorite
         button.isSelected = favorite
-
+        
         rebuildStatsStack(from: model.state)
     }
     

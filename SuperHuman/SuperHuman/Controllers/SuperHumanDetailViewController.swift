@@ -1,11 +1,11 @@
 import UIKit
 
 final class SuperHumanDetailViewController: UIViewController {
-
+    
     private static let actionAccent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
-
+    
     private var humanId: Int?
-
+    
     private let gradientLayer = CAGradientLayer()
     
     private let avatarImageView: UIImageView = {
@@ -41,7 +41,7 @@ final class SuperHumanDetailViewController: UIViewController {
     private let actionButton: UIButton = {
         let b = UIButton(type: .system)
         b.translatesAutoresizingMaskIntoConstraints = false
-
+        
         var config = UIButton.Configuration.plain()
         config.title = "Add to favorites"
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -51,13 +51,13 @@ final class SuperHumanDetailViewController: UIViewController {
         }
         config.background.cornerRadius = 16
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 24, bottom: 14, trailing: 24)
-
+        
         b.configuration = config
-
+        
         b.configurationUpdateHandler = { button in
             guard var cfg = button.configuration else { return }
             let accent = SuperHumanDetailViewController.actionAccent
-
+            
             switch (button.isSelected, button.isHighlighted) {
             case (_, true):
                 cfg.background.backgroundColor = accent
@@ -75,10 +75,10 @@ final class SuperHumanDetailViewController: UIViewController {
                 cfg.background.strokeWidth = 2
                 cfg.baseForegroundColor = accent
             }
-
+            
             button.configuration = cfg
         }
-
+        
         return b
     }()
     
@@ -122,20 +122,20 @@ final class SuperHumanDetailViewController: UIViewController {
     
     func configure(with human: HumanModel) {
         humanId = human.id
-
+        
         gradientLayer.colors = [
             human.color.cgColor,
             UIColor.black.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-
+        
         nameLabel.text = human.name
         
         avatarImageView.image = UIImage(named: human.titleImage)
-
+        
         rebuildStatsStack(from: human.state)
-
+        
         let current = ModelData.shared.human(withId: human.id) ?? human
         actionButton.isSelected = current.isFavorite
         if var cfg = actionButton.configuration {
@@ -185,7 +185,7 @@ final class SuperHumanDetailViewController: UIViewController {
         guard let id = humanId else { return }
         sender.isSelected.toggle()
         ModelData.shared.setFavorite(id: id, isFavorite: sender.isSelected)
-
+        
         guard var cfg = sender.configuration else { return }
         cfg.title = sender.isSelected ? "In favorites" : "Add to favorites"
         sender.configuration = cfg
