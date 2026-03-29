@@ -1,7 +1,9 @@
 import UIKit
 
 final class SuperHumanDetailViewController: UIViewController {
-    
+
+    private static let actionAccent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
+
     private let gradientLayer = CAGradientLayer()
     
     private let avatarImageView: UIImageView = {
@@ -35,28 +37,46 @@ final class SuperHumanDetailViewController: UIViewController {
     }()
     
     private let actionButton: UIButton = {
-        let accent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
-        
         let b = UIButton(type: .system)
         b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle("Add to favorites", for: .normal)
-        b.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        b.setTitleColor(accent, for: .normal)
-        b.setTitle("In favorites", for: .selected)
-        b.setTitleColor(UIColor.black, for: .selected)
-        b.backgroundColor = UIColor.white.withAlphaComponent(0.2)
-        b.layer.cornerRadius = 16
-        
+
         var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = accent
-        config.background.backgroundColor = .clear.withAlphaComponent(1)
-        config.background.strokeColor = accent
-        config.background.strokeWidth = 2
+        config.title = "Add to favorites"
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var out = incoming
+            out.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            return out
+        }
         config.background.cornerRadius = 16
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 24, bottom: 14, trailing: 24)
-        
+
         b.configuration = config
-        
+
+        b.configurationUpdateHandler = { button in
+            guard var cfg = button.configuration else { return }
+            let accent = SuperHumanDetailViewController.actionAccent
+
+            switch (button.isSelected, button.isHighlighted) {
+            case (_, true):
+                cfg.background.backgroundColor = accent
+                cfg.background.strokeWidth = 0
+                cfg.background.strokeColor = .clear
+                cfg.baseForegroundColor = .black
+            case (true, false):
+                cfg.background.backgroundColor = accent
+                cfg.background.strokeWidth = 0
+                cfg.background.strokeColor = .clear
+                cfg.baseForegroundColor = .black
+            case (false, false):
+                cfg.background.backgroundColor = .clear
+                cfg.background.strokeColor = accent
+                cfg.background.strokeWidth = 2
+                cfg.baseForegroundColor = accent
+            }
+
+            button.configuration = cfg
+        }
+
         return b
     }()
     
@@ -86,10 +106,9 @@ final class SuperHumanDetailViewController: UIViewController {
             statsStackView.widthAnchor.constraint(equalToConstant: 158),
             statsStackView.heightAnchor.constraint(equalToConstant: 212),
             
-            actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -24),
+            actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            actionButton.widthAnchor.constraint(equalToConstant: view.frame.width),
             actionButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -150,9 +169,13 @@ final class SuperHumanDetailViewController: UIViewController {
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
-        
         sender.isSelected.toggle()
-        
+
+        guard var cfg = sender.configuration else { return }
+        cfg.title = sender.isSelected ? "In favorites" : "Add to favorites"
+        sender.configuration = cfg
+        sender.setNeedsUpdateConfiguration()
+
         if sender.isSelected {
             print("Звездочка добавлена в избранное")
         } else {
