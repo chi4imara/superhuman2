@@ -134,7 +134,7 @@ final class SuperHumanDetailViewController: UIViewController {
         
         avatarImageView.image = UIImage(named: human.titleImage)
         
-        StackHelper.rebuildStatsStack(from: human.state, statsStackView: statsStackView, whereMake: "Detail")
+        StackHelper.rebuildStatsStack(from: human.state, statsStackView: statsStackView, whereMake: .detail)
         
         let current = ModelData.shared.human(withId: human.id) ?? human
         actionButton.isSelected = current.isFavorite

@@ -1,9 +1,14 @@
 import Foundation
 import UIKit
 
+enum FromState {
+    case card
+    case detail
+}
+
 struct StackHelper {
     
-    static func rebuildStatsStack(from state: [String: Int], statsStackView: UIStackView, whereMake: String) {
+    static func rebuildStatsStack(from state: [String: Int], statsStackView: UIStackView, whereMake: FromState) {
         statsStackView.arrangedSubviews.forEach { v in
             statsStackView.removeArrangedSubview(v)
             v.removeFromSuperview()
@@ -14,11 +19,11 @@ struct StackHelper {
         }
     }
     
-    private static func makeStatRow(name: String, value: Int, whereMake: String) -> UIStackView {
+    private static func makeStatRow(name: String, value: Int, whereMake: FromState) -> UIStackView {
         let keyLabel = UILabel()
         keyLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         keyLabel.textColor = UIColor.white.withAlphaComponent(0.38)
-        keyLabel.text = whereMake == "Detail" ? name : "\(name.prefix(3))"
+        keyLabel.text = whereMake == .detail ? name : "\(name.prefix(3))"
         keyLabel.numberOfLines = 2
         keyLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
@@ -33,7 +38,7 @@ struct StackHelper {
         let row = UIStackView(arrangedSubviews: [valueLabel, keyLabel])
         row.axis = .horizontal
         row.alignment = .firstBaseline
-        row.spacing = whereMake == "Detail" ? 16 : 8
+        row.spacing = whereMake == .detail ? 16 : 8
         row.distribution = .fill
         
         return row

@@ -95,7 +95,7 @@ final class SuperHumanCardView: UIView {
         let favorite = ModelData.shared.human(withId: model.id)?.isFavorite ?? model.isFavorite
         button.isSelected = favorite
         
-        StackHelper.rebuildStatsStack(from: model.state, statsStackView: statsStackView, whereMake: "Card")
+        StackHelper.rebuildStatsStack(from: model.state, statsStackView: statsStackView, whereMake: .card)
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
