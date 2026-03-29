@@ -8,6 +8,21 @@ final class SuperHumanDetailViewController: UIViewController {
     
     private let gradientLayer = CAGradientLayer()
     
+    private let scrollView: UIScrollView = {
+        let s = UIScrollView()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.alwaysBounceVertical = true
+        s.showsVerticalScrollIndicator = true
+        s.keyboardDismissMode = .onDrag
+        return s
+    }()
+    
+    private let contentView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
     private let avatarImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +38,7 @@ final class SuperHumanDetailViewController: UIViewController {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         l.textColor = .white
-        l.numberOfLines = 1
+        l.numberOfLines = 0
         l.textAlignment = .center
         return l
     }()
@@ -87,31 +102,48 @@ final class SuperHumanDetailViewController: UIViewController {
         actionButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
         
         view.layer.insertSublayer(gradientLayer, at: 0)
-        view.addSubview(avatarImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(statsStackView)
-        view.addSubview(actionButton)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(statsStackView)
+        contentView.addSubview(actionButton)
+        
+        let contentGuide = scrollView.contentLayoutGuide
+        let frameGuide = scrollView.frameLayoutGuide
         
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 94),
-            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameLabel.widthAnchor.constraint(equalToConstant: 179),
-            nameLabel.heightAnchor.constraint(equalToConstant: 41),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: contentGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: contentGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: frameGuide.widthAnchor),
+            
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            nameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16),
             
             avatarImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 37),
-            avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             avatarImageView.widthAnchor.constraint(equalToConstant: 164),
             avatarImageView.heightAnchor.constraint(equalToConstant: 164),
             
             statsStackView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 40),
-            statsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            statsStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             statsStackView.widthAnchor.constraint(equalToConstant: 158),
-            statsStackView.heightAnchor.constraint(equalToConstant: 212),
             
-            actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
-            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            actionButton.heightAnchor.constraint(equalToConstant: 60)
+            actionButton.topAnchor.constraint(equalTo: statsStackView.bottomAnchor, constant: 150),
+            actionButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            actionButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     
