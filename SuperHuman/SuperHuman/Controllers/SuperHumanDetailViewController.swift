@@ -44,7 +44,9 @@ final class SuperHumanDetailViewController: UIViewController {
         b.setTitleColor(UIColor.black, for: .selected)
         b.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         b.layer.cornerRadius = 16
-        b.contentEdgeInsets = UIEdgeInsets(top: 20, left: 135, bottom: 18, right: 134)
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 24, bottom: 14, trailing: 24)
+        b.configuration = config
         return b
     }()
     
