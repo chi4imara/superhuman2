@@ -100,6 +100,15 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
         cell.configure(with: models[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let model = models[indexPath.row]
+        let detailVC = SuperHumanDetailViewController()
+        detailVC.configure(with: model)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 
     @objc private func starButtonTapped(_ sender: UIButton) {
 

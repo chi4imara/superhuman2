@@ -1,6 +1,6 @@
 import UIKit
 
-class SuperheroesViewController: SuperHumanViewController  {
+final class SuperheroesViewController: SuperHumanViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
