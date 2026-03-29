@@ -35,18 +35,28 @@ final class SuperHumanDetailViewController: UIViewController {
     }()
     
     private let actionButton: UIButton = {
+        let accent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
+        
         let b = UIButton(type: .system)
         b.translatesAutoresizingMaskIntoConstraints = false
         b.setTitle("Add to favorites", for: .normal)
         b.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        b.setTitleColor(UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1), for: .normal)
+        b.setTitleColor(accent, for: .normal)
         b.setTitle("In favorites", for: .selected)
         b.setTitleColor(UIColor.black, for: .selected)
         b.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         b.layer.cornerRadius = 16
+        
         var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = accent
+        config.background.backgroundColor = .clear.withAlphaComponent(1)
+        config.background.strokeColor = accent
+        config.background.strokeWidth = 2
+        config.background.cornerRadius = 16
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 24, bottom: 14, trailing: 24)
+        
         b.configuration = config
+        
         return b
     }()
     
