@@ -10,10 +10,6 @@ class ModelData {
     }
     
     func loadData() {
-        do {
-            self.human = load("human.json")
-        } catch {
-            fatalError("Ошибка загрузки: \(error)")
-        }
+        self.human = load("human.json")
     }
 }
