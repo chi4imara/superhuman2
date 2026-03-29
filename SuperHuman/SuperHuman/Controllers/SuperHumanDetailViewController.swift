@@ -34,13 +34,29 @@ final class SuperHumanDetailViewController: UIViewController {
         return s
     }()
     
+    private let actionButton: UIButton = {
+        let b = UIButton(type: .system)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.setTitle("Add to favorites", for: .normal)
+        b.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        b.setTitleColor(UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1), for: .normal)
+        b.setTitle("In favorites", for: .selected)
+        b.setTitleColor(UIColor.black, for: .selected)
+        b.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        b.layer.cornerRadius = 16
+        b.contentEdgeInsets = UIEdgeInsets(top: 20, left: 135, bottom: 18, right: 134)
+        return b
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        actionButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
         
         view.layer.insertSublayer(gradientLayer, at: 0)
         view.addSubview(avatarImageView)
         view.addSubview(nameLabel)
         view.addSubview(statsStackView)
+        view.addSubview(actionButton)
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 94),
@@ -57,6 +73,12 @@ final class SuperHumanDetailViewController: UIViewController {
             statsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             statsStackView.widthAnchor.constraint(equalToConstant: 158),
             statsStackView.heightAnchor.constraint(equalToConstant: 212),
+            
+            actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -24),
+            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            actionButton.widthAnchor.constraint(equalToConstant: view.frame.width),
+            actionButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -113,5 +135,16 @@ final class SuperHumanDetailViewController: UIViewController {
         row.distribution = .fill
         
         return row
+    }
+    
+    @objc private func starButtonTapped(_ sender: UIButton) {
+        
+        sender.isSelected.toggle()
+        
+        if sender.isSelected {
+            print("Звездочка добавлена в избранное")
+        } else {
+            print("Звездочка удалена из избранного")
+        }
     }
 }
