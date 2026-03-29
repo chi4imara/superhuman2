@@ -3,6 +3,8 @@ import UIKit
 final class SuperHumanDetailViewController: UIViewController {
     
     private static let actionAccent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
+
+    private static let contentBottomInset: CGFloat = 100
     
     private var humanId: Int?
     
@@ -14,6 +16,7 @@ final class SuperHumanDetailViewController: UIViewController {
         s.alwaysBounceVertical = true
         s.showsVerticalScrollIndicator = true
         s.keyboardDismissMode = .onDrag
+        s.contentInsetAdjustmentBehavior = .never
         return s
     }()
     
@@ -126,7 +129,7 @@ final class SuperHumanDetailViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: contentGuide.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: frameGuide.widthAnchor),
             
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 94),
             nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             nameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16),
             nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16),
@@ -140,10 +143,11 @@ final class SuperHumanDetailViewController: UIViewController {
             statsStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             statsStackView.widthAnchor.constraint(equalToConstant: 158),
             
-            actionButton.topAnchor.constraint(equalTo: statsStackView.bottomAnchor, constant: 150),
+            actionButton.topAnchor.constraint(equalTo: statsStackView.bottomAnchor, constant: 80),
             actionButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             actionButton.heightAnchor.constraint(equalToConstant: 60),
+            actionButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Self.contentBottomInset)
         ])
     }
     
