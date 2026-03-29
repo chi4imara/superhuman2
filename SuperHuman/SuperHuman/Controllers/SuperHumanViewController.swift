@@ -34,38 +34,46 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
         return starButton
     }()
 
+    private let headerContainerView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .black
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    private static let headerHeight: CGFloat = 96 + 47
+
     func setupNavigationBar(title: String) {
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 96 + 47))
-        containerView.backgroundColor = .black
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-
         label.text = title
-        containerView.addSubview(label)
 
+        guard headerContainerView.superview == nil else { return }
+
+        headerContainerView.addSubview(label)
+        headerContainerView.addSubview(button)
         button.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
-        containerView.addSubview(button)
 
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            label.leadingAnchor.constraint(equalTo: headerContainerView.leadingAnchor, constant: 12),
+            label.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor, constant: -8),
 
-            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            button.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 56),
+            button.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor, constant: -12),
+            button.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 56),
             button.widthAnchor.constraint(equalToConstant: 26),
             button.heightAnchor.constraint(equalToConstant: 26)
         ])
-        
-        view.addSubview(containerView)
+
+        view.addSubview(headerContainerView)
 
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 96 + 47)
+            headerContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerContainerView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            headerContainerView.heightAnchor.constraint(equalToConstant: Self.headerHeight)
         ])
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleFavoriteDidChange),
@@ -107,7 +115,7 @@ class SuperHumanViewController: UIViewController, UITableViewDataSource, UITable
             view.addSubview(tableView)
             
             NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 143),
+                tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Self.headerHeight),
                 tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
