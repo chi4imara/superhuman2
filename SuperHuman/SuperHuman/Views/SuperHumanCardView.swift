@@ -31,13 +31,14 @@ final class SuperHumanCardView: UIView {
         return l
     }()
     
-    private let statsLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        l.textColor = .white
-        l.numberOfLines = 0
-        return l
+    private let statsStackView: UIStackView = {
+        let s = UIStackView()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.axis = .vertical
+        s.spacing = 0
+        s.alignment = .fill
+        s.distribution = .fill
+        return s
     }()
     
     override init(frame: CGRect) {
@@ -50,28 +51,29 @@ final class SuperHumanCardView: UIView {
         addSubview(avatarImageView)
         addSubview(button)
         addSubview(nameLabel)
-        addSubview(statsLabel)
+        addSubview(statsStackView)
         
         let inset: CGFloat = 16
         
         NSLayoutConstraint.activate([
             avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: inset),
             avatarImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inset),
+            avatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),
             avatarImageView.widthAnchor.constraint(equalToConstant: 164),
             avatarImageView.heightAnchor.constraint(equalToConstant: 164),
             
-            button.topAnchor.constraint(equalTo: topAnchor, constant: inset),
+            button.topAnchor.constraint(equalTo: topAnchor, constant: 13),
             button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
             button.widthAnchor.constraint(equalToConstant: 26),
             button.heightAnchor.constraint(equalToConstant: 26),
             
-            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: inset),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             nameLabel.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: 8),
             
-            statsLabel.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 13),
-            statsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
-            statsLabel.trailingAnchor.constraint(lessThanOrEqualTo: avatarImageView.leadingAnchor, constant: -inset),
-            statsLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -inset),
+            statsStackView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 13),
+            statsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
+            statsStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -12),
+            statsStackView.widthAnchor.constraint(equalToConstant: 71),
             
             bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: inset),
             heightAnchor.constraint(greaterThanOrEqualToConstant: 100)
@@ -87,10 +89,43 @@ final class SuperHumanCardView: UIView {
         avatarImageView.image = UIImage(named: model.titleImage)
         backgroundColor = model.color
         
-        let parts = model.state
-            .sorted { $0.key < $1.key }
-            .map { "\($0.value) \($0.key.prefix(3))" }
-        statsLabel.text = parts.joined(separator: "\n")
+        rebuildStatsStack(from: model.state)
+    }
+    
+    private func rebuildStatsStack(from state: [String: Int]) {
+        statsStackView.arrangedSubviews.forEach { v in
+            statsStackView.removeArrangedSubview(v)
+            v.removeFromSuperview()
+        }
+        
+        for (key, value) in state.sorted(by: { $0.key < $1.key }) {
+            statsStackView.addArrangedSubview(makeStatRow(name: key, value: value))
+        }
+    }
+    
+    private func makeStatRow(name: String, value: Int) -> UIStackView {
+        let keyLabel = UILabel()
+        keyLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        keyLabel.textColor = UIColor.white.withAlphaComponent(0.38)
+        keyLabel.text = "\(name.prefix(3))"
+        keyLabel.numberOfLines = 2
+        keyLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        let valueLabel = UILabel()
+        valueLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        valueLabel.textColor = .white
+        valueLabel.text = "\(value)"
+        valueLabel.textAlignment = .right
+        valueLabel.setContentHuggingPriority(.required, for: .horizontal)
+        valueLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        let row = UIStackView(arrangedSubviews: [valueLabel, keyLabel])
+        row.axis = .horizontal
+        row.alignment = .firstBaseline
+        row.spacing = 8
+        row.distribution = .fill
+        
+        return row
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
