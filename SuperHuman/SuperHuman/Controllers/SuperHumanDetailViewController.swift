@@ -3,7 +3,7 @@ import UIKit
 final class SuperHumanDetailViewController: UIViewController {
     
     private static let actionAccent = UIColor(red: 0.947, green: 0.641, blue: 0.235, alpha: 1)
-
+    
     private static let contentBottomInset: CGFloat = 100
     
     private var humanId: Int?
